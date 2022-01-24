@@ -6,6 +6,8 @@ const { v4: uuid } = require('uuid');
 
 class UserService{
     create = async (user:User)=>{
+        console.log(user);
+        
         await pool.query(`insert into "user" values ($1,$2,$3,'user',$4,$5,$6,$7,default,null)`,[user.idUser,user.username,user.password,user.name,user.address,user.phone,user.email])
         return "done"
     }

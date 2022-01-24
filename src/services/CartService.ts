@@ -29,24 +29,26 @@ class CartService{
 
     getProductFromCart = async (idUser:string,idOrder:string) => {
         let idOrderRaw=idOrder
-
+        console.log(idOrderRaw);
+        
         if(idOrderRaw===""){
             let getOrder:QueryResult=await pool.query(`select id_order from "order" o where id_user = $1 and is_temporary =true `,[idUser])
 
             if(getOrder.rows.length===0){
-                await pool.query(`insert into "order" values($1,$2,$3,$4,null,default,null,null,null,null,null,null)`,[uuid(),idUser,0,true]);
+                await pool.query(`insert into "order" values($1,$2,$3,$4,default,null,null,null,null,null,default,null)`,[uuid(),idUser,0,true]);
                 getOrder=await pool.query(`select * from "order" where id_user=$1 and is_temporary=true`,[idUser])
             }
             idOrderRaw=getOrder.rows[0].id_order
         }
 
-        const response:QueryResult=await pool.query(`select o.id_order ,pl.id_product_line,p.id_product ,pl.name_product ,to_char(p.price, '99.99') price,p.id_weight,w.weight,
+        const response:QueryResult=await pool.query(`select o.id_order ,pl.id_product_line,p.id_product ,pl.name_product ,to_char(p.price, '99.99') price,p.id_weight,w.weight, c2.name_color,c2.id_color ,
         pp.image,pp.id_picture,op.quantity,pl.name_product
         from product_line pl join product p on pl.id_product_line =p.id_product_line
         join weight w on p.id_weight =w.id_weight
         join product_picture pp on pl.id_product_line = pp.id_product_line
         join order_product op on op.id_product =p.id_product
         join "order" o on o.id_order =op.id_order
+        join color c2 on c2.id_color=p.id_color
         where o.id_order=$1
         order by op."createAt" `,[idOrderRaw]);
         
@@ -67,6 +69,7 @@ class CartService{
                 price:0,
                 idProductLine:"",
                 weight:"",
+                color:"",
                 images:[]
             }
 
@@ -79,6 +82,7 @@ class CartService{
                     itemCart.nameProductLine=item.name_product
                     itemCart.idProductLine=item.id_product_line
                     itemCart.weight=item.weight
+                    itemCart.color=item.name_color
                     itemCart.images.push({idPicture:item.id_picture,idProductLine:item.id_product_line,image:item.image})
                 }
             })

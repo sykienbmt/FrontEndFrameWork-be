@@ -12,6 +12,8 @@ class CartController{
     }
     
     add = async (req: Request, res: Response) => {
+        console.log(req.body);
+        
         let orderProduct:OrderProduct=req.body.orderProduct
         await cartService.add(orderProduct)
         const data = await cartService.getProductFromCart(req.body.idUser,orderProduct.idOrder)

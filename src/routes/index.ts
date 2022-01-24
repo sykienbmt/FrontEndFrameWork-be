@@ -7,6 +7,7 @@ import { productController } from '../controller/ProductController';
 
 import { userController } from '../controller/UserController';
 import { weightController } from '../controller/WeightController';
+import { colorController } from '../controller/WeightController copy';
 const router = Router();
 
 //userRouter
@@ -53,5 +54,8 @@ router.get('/admin/category/get',categoryController.list)
 
 //router weight
 router.get('/admin/weight/get',weightController.list)
+
+//router color
+router.get('/admin/color/get',colorController.list)
 
 export default router;
