@@ -16,31 +16,29 @@ router.post('/register',userController.create)
 router.get('/getMe',userController.getMe)
 
 //cartRouter
-router.put('/cart/get',cartController.get)
-router.put('/cart/add',cartController.add)
-router.put('/cart/delete',cartController.delete)
-router.put('/cart/update',cartController.update)
-router.put('/cart/done',cartController.close)
-
-
+router.put('/cart/get',verifyToken,cartController.get)
+router.put('/cart/add',verifyToken,cartController.add)
+router.put('/cart/delete',verifyToken,cartController.delete)
+router.put('/cart/update',verifyToken,cartController.update)
+router.put('/cart/done',verifyToken,cartController.close)
 
 //productRouter
 router.put('/product/list',productController.list)
-router.post('/product/add',productController.add)
+router.post('/product/add',verifyAdmin,productController.add)
 router.post('/product/get',productController.get)
 
-router.post('/product/update/image',productController.updateImage)
+router.post('/product/update/image',verifyAdmin,productController.updateImage)
 
-router.post('/product/update',productController.updateProduct)
-router.post('/product/update/productLine',productController.updateProductLine)
+router.post('/product/update',verifyAdmin,productController.updateProduct)
+router.post('/product/update/productLine',verifyAdmin,productController.updateProductLine)
 
-router.post('/product/delete',productController.deleteProduct)
-router.post('/product/delete/image',productController.removeImage)
-router.post('/product/delete/productLine',productController.deleteProductLine)
+router.post('/product/delete',verifyAdmin,productController.deleteProduct)
+router.post('/product/delete/image',verifyAdmin,productController.removeImage)
+router.post('/product/delete/productLine',verifyAdmin,productController.deleteProductLine)
 
 //OrderRouter
 // router.put('/order/get',verifyToken,orderController.get)
-router.put('/order/get',orderController.get)
+router.put('/order/get',verifyToken,orderController.get)
 
 
 //adminRouter
@@ -49,7 +47,6 @@ router.get('/admin',verifyAdmin,userController.admin)
 
 //Router category
 router.get('/admin/category/get',categoryController.list)
-
 
 
 //router weight

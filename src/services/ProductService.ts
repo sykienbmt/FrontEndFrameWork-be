@@ -138,34 +138,6 @@ class ProductService{
     list = async (pagination:Pagination)=>{
         
         const {page,perPage,search,idCategory,select,from,to}=pagination
-        // let query = `select pl.id_product_line,p.id_product ,pl.name_product,pl."createAt" ,c.id_category,
-        // c.name_category,pl.sell_count,to_char(p.price, '99.99') price,p.id_weight,w.weight,pp.id_picture,pp.image,pl.description ,
-        // c2.id_color ,c2.name_color 
-        // from product_line pl join product p on pl.id_product_line =p.id_product_line
-        // join weight w on p.id_weight =w.id_weight
-        // join category c on c.id_category =pl.id_category
-        // join product_picture pp on pl.id_product_line = pp.id_product_line
-        // join color c2 on c2.id_color =p.id_color
-        // where p."deleteAt" is null and pl.id_product_line in
-        // ( select id_product_line from product_line where "deleteAt" is null and name_product like '%${search}%' `
-
-        // if(category!==""){ 
-        //     query+=` and id_category = '${category}' `
-        // }
-        // if(sort!=="" && sort !== "Ascend"){
-        //     query += ` order by `
-        //     if(sort==="AZ") {
-        //         query +=` name_product asc `
-        //     }else if(sort==="ZA"){
-        //         query +=` name_product desc `
-        //     }else if(sort==="sell"){
-        //         query +=` sell desc`
-        //     }
-        // }
-        // query+=` LIMIT $2 OFFSET (($1-1) * $2) )`
-        
-        // const data:QueryResult = await pool.query(query,[page,perPage])
-
         const data:QueryResult = await pool.query(`
         select pl.id_product_line,p.id_product ,pl.name_product,pl."createAt" ,c.id_category,
         c.name_category,c2.id_color ,c2.name_color,pl.sell_count,to_char(p.price, '99.99') price,p.id_weight,w.weight,pp.id_picture,pp.image,pl.description

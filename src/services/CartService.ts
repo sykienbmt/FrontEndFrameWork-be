@@ -105,9 +105,12 @@ class CartService{
             total+=item.quantity*item.price ;
             idOrder=item.idOrder
             await pool.query(`update order_product set price=$1 where id_order=$2`,[item.price,item.idOrder])
+            await pool.query(`update product_line set sell_count=sell_count+1 where id_product_line=$1`,[item.idProductLine])
         })
 
-        await pool.query(`update "order" set "closeAt"=NOW()::timestamp,status='pending',is_temporary=false,total=$7,email=$1,full_name=$2,phone_number=$3,address=$4,payment=$5 where id_order=$6`,[user.email,user.name,user.phone,user.address,payment,idOrder,total])
+        await pool.query(`update "order" set "closeAt"=NOW()::timestamp,status='pending',is_temporary=false,
+        total=$7,email=$1,full_name=$2,phone_number=$3,address=$4,payment=$5 where id_order=$6`,
+        [user.email,user.name,user.phone,user.address,payment,idOrder,total])
     }
 
     

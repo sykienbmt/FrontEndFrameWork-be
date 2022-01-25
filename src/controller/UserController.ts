@@ -65,6 +65,7 @@ class UserController{
             username:data[0].username,
             name:data[0].username,
             address:data[0].address,
+            permission:data[0].permission,
             phone:data[0].phone,
             email:data[0].email
         }
