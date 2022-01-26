@@ -4,10 +4,10 @@ import { cartController } from '../controller/CartController';
 import { categoryController } from '../controller/CategoryController';
 import { orderController } from '../controller/OrderController';
 import { productController } from '../controller/ProductController';
-
 import { userController } from '../controller/UserController';
 import { weightController } from '../controller/WeightController';
-import { colorController } from '../controller/WeightController copy';
+import { colorController } from '../controller/ColorController';
+import { wishListController } from '../controller/WishListController';
 const router = Router();
 
 //userRouter
@@ -29,7 +29,7 @@ router.post('/product/get',productController.get)
 
 router.post('/product/update/image',verifyAdmin,productController.updateImage)
 
-router.post('/product/update',verifyAdmin,productController.updateProduct)
+router.put('/product/update',verifyAdmin,productController.updateProduct)
 router.post('/product/update/productLine',verifyAdmin,productController.updateProductLine)
 
 router.post('/product/delete',verifyAdmin,productController.deleteProduct)
@@ -54,5 +54,11 @@ router.get('/admin/weight/get',weightController.list)
 
 //router color
 router.get('/admin/color/get',colorController.list)
+
+//router wish list
+
+router.put('/wishlist/get',wishListController.list)
+router.put('/wishlist/add',wishListController.add)
+router.put('/wishlist/delete',wishListController.delete)
 
 export default router;

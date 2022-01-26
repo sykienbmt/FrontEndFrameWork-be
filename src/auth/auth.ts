@@ -24,6 +24,7 @@ export const verifyToken=(req:Request,res:Response,next:NextFunction)=>{
 }
 
 export const verifyAdmin=async (req:Request,res:Response,next:NextFunction)=>{
+
     const token=req.headers['authorization'];
     
     if(!token) return res.status(401).json({statusCode:401,mess:"Unauthorized"});
@@ -42,7 +43,7 @@ export const verifyAdmin=async (req:Request,res:Response,next:NextFunction)=>{
             return res.status(403).json({statusCode:403,mess:"Permission Denied"});
         }
         
-        next()
+        // next()
     } catch (error) {
         return res.status(401).json({statusCode:401,mess:"Forbidden"});
     }

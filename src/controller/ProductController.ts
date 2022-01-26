@@ -15,7 +15,7 @@ const ACCESS_TOKEN_SECRET= process.env.ACCESS_TOKEN_SECRET || "testToken"
 class ProductController{
     list = async (req: Request, res: Response)=>{
         const data= await productService.list(req.body)
-        return res.status(200).json(data)
+        return res.json(data)
     }
 
     add = async (req: Request, res: Response)=>{

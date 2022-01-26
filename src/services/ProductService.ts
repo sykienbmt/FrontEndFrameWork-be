@@ -41,20 +41,16 @@ class ProductService{
     }
 
     updateProduct= async (product:Product)=>{
-        const {idProduct,idProductLine,idWeight,idColor,price}=product
-        console.log(product);
-        
+        const {idProduct,idProductLine,idWeight,idColor,price}=product   
         if(idProduct===""){
             await pool.query(`insert into product values($1,$2,$3,$4,$5,default,default,null,null)`,[uuid(),idProductLine,idWeight,idColor,price])
-            return "Add new product done"
         }else{
             await pool.query(`update product set id_weight=$1,price=$2,id_color=$4,"updateAt"=NOW()::timestamp where id_product=$3`,[idWeight,price,idProduct,idColor])
-            return "update product done"
         }
     }
 
     updateProductLine=async(productLine:ProductLine)=>{
-        await pool.query(`update product_line set name_product=$1,description=$2,id_category=$3,sell=$4 where id_product_line=$5`,[productLine.nameProduct,productLine.desc,productLine.idCategory,productLine.sell,productLine.idProductLine])
+        await pool.query(`update product_line set name_product=$1,description=$2,id_category=$3,sell_count=$4 where id_product_line=$5`,[productLine.nameProduct,productLine.desc,productLine.idCategory,productLine.sell,productLine.idProductLine])
         return "update product  line done"
     }
 
