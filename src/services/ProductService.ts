@@ -1,7 +1,7 @@
 import { privateDecrypt } from "crypto";
 import { QueryResult } from "pg";
 import { stringify } from "querystring";
-import { pool } from "../dbConnect/db";
+import { pool} from "../dbConnect/db";
 import Image from "../model/Image";
 import { Pagination } from "../model/Pagination";
 import { Product } from "../model/Product";

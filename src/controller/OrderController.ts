@@ -19,12 +19,12 @@ class OrderController {
     return res.json(data);
   };
 
-//   list = async (req: Request, res: Response) => {
-//     const orderPagination = req.body;
-//     const { id_user, page, perPage } = orderPagination;
-//     const data = await orderService.list(id_user, page, perPage);
-//     return res.json(data);
-//   };
+  list = async (req: Request, res: Response) => {
+    const orderPagination = req.body;
+    const { page, perPage } = orderPagination;
+    const data = await orderService.list(page, perPage);
+    return res.json(data);
+  };
 }
 
 export const orderController = new OrderController();

@@ -1,10 +1,9 @@
 import express, {Request, Response} from 'express'
-var cors = require('cors')
-
 import dotenv from "dotenv";
 import router from './routes';
 dotenv.config();
 const PORT= process.env.PORT
+var cors = require('cors')
 
 const app = express()
 app.use(express.urlencoded({extended:true}))

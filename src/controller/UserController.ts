@@ -33,23 +33,21 @@ class UserController{
 
         
         if(data.length<=0){
-            return res.status(400).json({success:false,mess:"Incorrect Username!"})
+            return res.status(200).json({success:false,mess:"Incorrect Username!"})
         }
         //check pass
         const passValid=await argon2.verify(data[0].password,password)
         if(!passValid){
-            return res.status(400).json({success:false,mess:"Incorrect Pass!"})
+            return res.status(200).json({success:false,mess:"Incorrect Pass!"})
         }
 
         //done
         const id_user=data[0].id_user
-        const accessToken=jwt.sign({id_user},ACCESS_TOKEN_SECRET,{expiresIn: '300s'})
+        const accessToken=jwt.sign({id_user},ACCESS_TOKEN_SECRET,{expiresIn: '3000s'})
         return res.status(200).json({success:true,mess:"Login done!",accessToken:accessToken})
     }
 
     get = async (req: Request, res: Response)=> {
-        console.log(req.body);
-        
         const id_user:string=req.body.id_user
         const data =await userService.get(id_user)
         return res.json(data);
@@ -57,7 +55,10 @@ class UserController{
 
     getMe = async (req:Request,res:Response)=>{
         const token:string=req.headers.authorization || "";
+
         const idUser= parseJwt(token).id_user
+        console.log(idUser);
+        
         const data= await userService.get(idUser)
         
         const user:User={

@@ -2,15 +2,14 @@ import { NextFunction, Request, Response } from 'express';
 import dotenv from "dotenv";
 import jwt from 'jsonwebtoken'
 import { userService } from '../services/UserService';
-import { userController } from '../controller/UserController';
-import User from '../model/User';
 dotenv.config();
 
 
 const ACCESS_TOKEN_SECRET= process.env.ACCESS_TOKEN_SECRET || "testToken"
 
 export const verifyToken=(req:Request,res:Response,next:NextFunction)=>{
-    const token=req.headers['authorization'];
+    const tokenFull=req.headers['authorization'];
+    const token=tokenFull?.split(' ')[1]
 
     if(!token) return res.status(401).json({statusCode:401,mess:"Unauthorized"});
     
@@ -25,7 +24,8 @@ export const verifyToken=(req:Request,res:Response,next:NextFunction)=>{
 
 export const verifyAdmin=async (req:Request,res:Response,next:NextFunction)=>{
 
-    const token=req.headers['authorization'];
+    const tokenFull=req.headers['authorization'];
+    const token=tokenFull?.split(' ')[1]
     
     if(!token) return res.status(401).json({statusCode:401,mess:"Unauthorized"});
     

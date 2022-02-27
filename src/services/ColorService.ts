@@ -1,5 +1,5 @@
 import { QueryResult } from "pg";
-import { pool } from "../dbConnect/db";
+import { pool} from "../dbConnect/db";
 import { Color } from "../model/Color";
 const { v4: uuid } = require('uuid');
 

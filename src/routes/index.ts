@@ -47,6 +47,8 @@ router.get('/admin',verifyAdmin,userController.admin)
 
 //Router category
 router.get('/admin/category/get',categoryController.list)
+router.post('/admin/category/edit',categoryController.edit)
+router.post('/admin/category/delete',categoryController.delete)
 
 
 //router weight
@@ -56,9 +58,12 @@ router.get('/admin/weight/get',weightController.list)
 router.get('/admin/color/get',colorController.list)
 
 //router wish list
-
 router.put('/wishlist/get',wishListController.list)
 router.put('/wishlist/add',wishListController.add)
 router.put('/wishlist/delete',wishListController.delete)
+
+//router order
+
+router.post('/admin/orders',orderController.list)
 
 export default router;
