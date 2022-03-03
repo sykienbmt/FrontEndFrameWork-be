@@ -50,7 +50,7 @@ class ProductService{
     }
 
     updateProductLine=async(productLine:ProductLine)=>{
-        await pool.query(`update product_line set name_product=$1,description=$2,id_category=$3,sell_count=$4 where id_product_line=$5`,[productLine.nameProduct,productLine.desc,productLine.idCategory,productLine.sell,productLine.idProductLine])
+        await pool.query(`update product_line set name_product=$1,description=$2,id_category=$3,sell_count=$4 where id_product_line=$5`,[productLine.nameProduct,productLine.desc,productLine.idCategory,0,productLine.idProductLine])
         return "update product  line done"
     }
 

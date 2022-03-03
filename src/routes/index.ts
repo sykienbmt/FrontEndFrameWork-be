@@ -14,6 +14,8 @@ const router = Router();
 router.put('/login',userController.login)
 router.post('/register',userController.create)
 router.get('/getMe',userController.getMe)
+router.get('/users',userController.list)
+router.post('/users/edit',userController.edit)
 
 //cartRouter
 router.put('/cart/get',verifyToken,cartController.get)
@@ -63,7 +65,7 @@ router.put('/wishlist/add',wishListController.add)
 router.put('/wishlist/delete',wishListController.delete)
 
 //router order
-
 router.post('/admin/orders',orderController.list)
+router.post('/admin/orders/edit',orderController.edit)
 
 export default router;

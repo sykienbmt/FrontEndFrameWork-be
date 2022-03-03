@@ -64,7 +64,7 @@ class UserController{
         const user:User={
             idUser:data[0].id_user,
             username:data[0].username,
-            name:data[0].username,
+            name:data[0].name,
             address:data[0].address,
             permission:data[0].permission,
             phone:data[0].phone,
@@ -74,8 +74,21 @@ class UserController{
         return res.json(user)
     }
 
+
+    list= async (req:Request,res:Response)=>{
+        const data =await userService.list()
+        return res.json(data)
+    }
+
     admin = async (req:Request,res:Response)=>{
         return res.json("Success")
+    }
+
+    edit = async (req:Request,res:Response)=>{
+        const user:User = req.body
+        await userService.edit(user)
+        const data =await userService.list()
+        return res.json(data)
     }
 }
 
@@ -86,7 +99,6 @@ const parseJwt =(token:string)=> {
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
-
     return JSON.parse(jsonPayload);
 };
 

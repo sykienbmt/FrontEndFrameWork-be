@@ -107,7 +107,7 @@ class OrderService {
     return { orderList, totalOrder };
   };
 
-  list = async (page: number, perPage: number) => {
+  list = async (page: number, perPage: number,search:string) => {
     const data: QueryResult = await pool.query(
       `select o.id_order,o.id_user,o.total,o.is_temporary,o.status,o."closeAt",o.email ,o.full_name,
         o.phone_number ,o.address,o.payment,op.id_product ,op.quantity ,to_char(op.price, '99.99') price ,w.weight ,pl.name_product ,pp.id_picture ,pp.image 
@@ -117,6 +117,7 @@ class OrderService {
         join product_line pl on pl.id_product_line =p.id_product_line
         join (select distinct on(id_product_line) id_product_line, id_picture,image from product_picture) pp on pp.id_product_line =pl.id_product_line
         where o.id_order in (select id_order from "order" where is_temporary=false limit $1 offset ($2-1)*$1 )
+        ${search!==""? `and o.id_order LIKE '%${search}%'` : ""} 
         order by "closeAt" desc
         `,
       [perPage, page]
@@ -209,6 +210,11 @@ class OrderService {
 
     return { orderList, totalOrder };
   };
+
+  edit = async (idOrder: string, status: string) => {
+    await pool.query(`update "order" set status=$1 where id_order=$2`,[status,idOrder])
+    return "done"
+  }
 }
 
 export const orderService = new OrderService();

@@ -9,22 +9,28 @@ class OrderController {
 //   };
 
   get = async (req: Request, res: Response) => {
-    console.log(req.body);
-    
     const idUser: string = req.body.idUser;
     const page: number = Number(req.body.page);
     const perPage: number = Number(req.body.perPage);
     let data = await orderService.get(idUser,page,perPage);
-    
     return res.json(data);
   };
 
   list = async (req: Request, res: Response) => {
     const orderPagination = req.body;
-    const { page, perPage } = orderPagination;
-    const data = await orderService.list(page, perPage);
+    const { page, perPage,search } = orderPagination;
+    const data = await orderService.list(page, perPage,search);
     return res.json(data);
   };
+
+  edit = async (req: Request, res: Response) => {
+    const idOrder = req.body.idOrder;
+    const status = req.body.status;
+    await orderService.edit(idOrder,status)
+    const data = await orderService.list(1, 10,"");
+    return res.json(data);
+  };
+
 }
 
 export const orderController = new OrderController();

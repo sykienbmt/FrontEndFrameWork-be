@@ -4,6 +4,7 @@ import { cartService } from '../services/CartService';
 const { v4: uuid } = require('uuid');
 
 
+
 class CartController{
     
     get = async (req: Request, res: Response) => {
@@ -12,8 +13,6 @@ class CartController{
     }
     
     add = async (req: Request, res: Response) => {
-        console.log(req.body);
-        
         let orderProduct:OrderProduct=req.body.orderProduct
         await cartService.add(orderProduct)
         const data = await cartService.getProductFromCart(req.body.idUser,orderProduct.idOrder)
@@ -36,6 +35,9 @@ class CartController{
     
     close = async (req: Request, res: Response) => {
         await cartService.closeCart(req.body.user,req.body.payment,req.body.itemCarts)
+
+        
+
         const data = await cartService.getProductFromCart(req.body.user.idUser,"")
         return res.json(data)
     }

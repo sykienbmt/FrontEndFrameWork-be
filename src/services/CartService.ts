@@ -3,12 +3,12 @@ import { pool } from "../dbConnect/db";
 import User from "../model/User";
 import { CartInfo, ItemCart, OrderProduct } from "./OrderProduct";
 const { v4: uuid } = require('uuid');
+const nodemailer = require('nodemailer');
 
 class CartService{
 
     add = async (orderProduct:OrderProduct) => {
         const {idOrder,idProduct,quantity,price}=orderProduct
-        
         const checkProductExist: QueryResult = await pool.query(`select quantity from order_product op where id_order=$1 and id_product=$2`,[idOrder,idProduct]);
         if(checkProductExist.rows.length==0){
             await pool.query(`insert into order_product values($1,$2,$3,$4,default)`,[idOrder,idProduct,quantity,price]);
@@ -111,6 +111,30 @@ class CartService{
         await pool.query(`update "order" set "closeAt"=NOW()::timestamp,status='pending',is_temporary=false,
         total=$7,email=$1,full_name=$2,phone_number=$3,address=$4,payment=$5 where id_order=$6`,
         [user.email,user.name,user.phone,user.address,payment,idOrder,total])
+
+
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'sikienbmto1@gmail.com',
+              pass: '01263500'
+            }
+          });
+          
+          var mailOptions = {
+            from: 'Organic Shop',
+            to: user.email,
+            subject: 'Order Successful',
+            html: '<h1>Thanks</h1><p>Hello</p>'
+          };
+          
+          transporter.sendMail(mailOptions, function(error:any, info:any){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
     }
 
     
