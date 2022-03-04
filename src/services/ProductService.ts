@@ -230,8 +230,15 @@ class ProductService{
         // if(select==="az") productLines.sort((a, b) => a.nameProduct.localeCompare(b.nameProduct))
         // if(select==="za") productLines.sort((a, b) => b.nameProduct.localeCompare(a.nameProduct))
 
-        const totalProduct=await pool.query(`select count(*) from product_line`)
-        const total=totalProduct.rows[0].count
+        const dataTotal:QueryResult = await pool.query(`
+        select distinct on(pl.id_product_line) pl.id_product_line,p.id_product ,pl.name_product,pl."createAt" ,c.id_category,
+        c.name_category,pl.sell_count,to_char(p.price, '99.99') price,pl.description
+        from product_line pl join product p on pl.id_product_line =p.id_product_line
+        join category c on c.id_category =pl.id_category
+        where p."deleteAt" is null and pl.id_product_line in
+        (select id_product_line from product_line where "deleteAt" is null and lower(name_product) ILIKE '%${search}%' and price between $1 and $2 and id_category like '%${idCategory}%')
+        `,[from,to])
+        const total=dataTotal.rows.length
         // console.log(productLines[0].products);
         
         return {productLines,total}

@@ -90,6 +90,13 @@ class UserController{
         const data =await userService.list()
         return res.json(data)
     }
+
+    delete = async (req:Request,res:Response)=>{
+        const idUser = req.body.idUser
+        await userService.delete(idUser)
+        const data =await userService.list()
+        return res.json(data)
+    }
 }
 
 

@@ -16,6 +16,7 @@ router.post('/register',userController.create)
 router.get('/getMe',userController.getMe)
 router.get('/users',userController.list)
 router.post('/users/edit',userController.edit)
+router.post('/users/delete',userController.delete)
 
 //cartRouter
 router.put('/cart/get',verifyToken,cartController.get)
