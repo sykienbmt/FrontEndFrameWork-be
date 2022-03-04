@@ -125,7 +125,33 @@ class CartService{
             from: 'Organic Shop',
             to: user.email,
             subject: 'Order Successful',
-            html: '<h1>Thanks</h1><p>Hello</p>'
+            html: `
+            <table style="border-collapse: collapse; width: 100%;" border="1">
+                <tbody>
+                <tr>
+                <td style="width: 13.9205%;">Image</td>
+                <td style="width: 22.017%;">Name</td>
+                <td style="width: 14.3466%;">Weight</td>
+                <td style="width: 12.642%;">color</td>
+                <td style="width: 18.537%;">Quantity</td>
+                <td style="width: 9.2685%;">Price</td>
+                <td style="width: 9.2685%;">Total</td>
+                </tr>
+                ${itemCart.map((item,index)=>{
+                    return `<tr>
+                    <td style="width: 13.9205%; text-align: center;"><img src=${item.images[0].image} alt="" width="50" height="50" /></td>
+                    <td style="width: 22.017%;">${item.nameProductLine}</td>
+                    <td style="width: 14.3466%;">${item.weight}</td>
+                    <td style="width: 12.642%;">${item.color}</td>
+                    <td style="width: 18.537%;">${item.quantity}</td>
+                    <td style="width: 9.2685%;">$${item.price}</td>
+                    <td style="width: 9.2685%;">$${item.quantity*item.price}</td>
+                    </tr>`
+                })}
+                </tbody>
+                </table>
+                <p style="text-align: right;">Total:$ ${total}</p>
+            `
           };
           
           transporter.sendMail(mailOptions, function(error:any, info:any){

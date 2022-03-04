@@ -77,6 +77,7 @@ class OrderService {
             nameProductLine: "",
             idProductLine: "",
             weight: "",
+            color:"",
             images: [],
           };
 
@@ -87,6 +88,7 @@ class OrderService {
             (itemCart.nameProductLine = item.name_product),
             (itemCart.idProductLine = item.id_product_line),
             (itemCart.weight = item.weight);
+            (itemCart.color = item.id_color);
 
           let indexImage = itemCart.images.findIndex(
             (x) => x.idPicture === item.id_picture
@@ -110,11 +112,12 @@ class OrderService {
   list = async (page: number, perPage: number,search:string) => {
     const data: QueryResult = await pool.query(
       `select o.id_order,o.id_user,o.total,o.is_temporary,o.status,o."closeAt",o.email ,o.full_name,
-        o.phone_number ,o.address,o.payment,op.id_product ,op.quantity ,to_char(op.price, '99.99') price ,w.weight ,pl.name_product ,pp.id_picture ,pp.image 
+        o.phone_number ,o.address,o.payment,op.id_product ,op.quantity ,to_char(op.price, '99.99') price ,w.weight ,pl.name_product ,pp.id_picture ,pp.image,co.id_color
         from "order" o join order_product op on o.id_order =op.id_order
         join product p on p.id_product=op.id_product
         join weight w on w.id_weight =p.id_weight
         join product_line pl on pl.id_product_line =p.id_product_line
+        join color co on co.id_color = p.id_color
         join (select distinct on(id_product_line) id_product_line, id_picture,image from product_picture) pp on pp.id_product_line =pl.id_product_line
         where o.id_order in (select id_order from "order" where is_temporary=false limit $1 offset ($2-1)*$1 )
         ${search!==""? `and o.id_order LIKE '%${search}%'` : ""} 
@@ -180,6 +183,7 @@ class OrderService {
             nameProductLine: "",
             idProductLine: "",
             weight: "",
+            color:"",
             images: [],
           };
 
@@ -190,6 +194,7 @@ class OrderService {
             (itemCart.nameProductLine = item.name_product),
             (itemCart.idProductLine = item.id_product_line),
             (itemCart.weight = item.weight);
+            (itemCart.color = item.id_color);
 
           let indexImage = itemCart.images.findIndex(
             (x) => x.idPicture === item.id_picture

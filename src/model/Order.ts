@@ -22,6 +22,7 @@ export interface ItemCart extends OrderProduct{
     nameProductLine:string,
     idProductLine:string,
     weight:string,
+    color:string,
     images:Image[]
 }
 
